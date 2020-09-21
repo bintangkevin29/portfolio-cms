@@ -8,9 +8,21 @@ interface Props extends ButtonProps {
   loading?: boolean;
 }
 
-const CustomButton: React.FC<Props> = ({ children, loading = false, iconComponent, disabled }) => {
+const CustomButton: React.FC<Props> = ({
+  children,
+  loading = false,
+  iconComponent,
+  disabled,
+  type,
+  ...props
+}) => {
   return (
-    <Button disabled={loading || disabled} className="btn btn-sm btn-primary shadow-sm">
+    <Button
+      type={type}
+      disabled={loading || disabled}
+      className="btn btn-sm btn-primary shadow-sm"
+      {...props}
+    >
       {loading ? (
         <CustomSpinner small />
       ) : (

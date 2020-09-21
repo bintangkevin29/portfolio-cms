@@ -2,14 +2,15 @@ import React, { ReactNode } from "react";
 import { Col } from "react-bootstrap";
 
 interface Props {
-  col?: number;
+  colXs?: number;
+  colMd?: number;
   children: ReactNode;
   header?: string;
 }
 
-const CustomCard: React.FC<Props> = ({ children, col = 12, header }) => {
+const CustomCard: React.FC<Props> = ({ children, colXs = 12, colMd, header }) => {
   return (
-    <Col xs={col}>
+    <Col className={`${colXs && `col-${colXs}`} ${colMd && `col-md-${colMd}`}`}>
       <div className="card shadow h-100 py-2">
         {header && (
           <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">

@@ -28,8 +28,10 @@ const Sidebar: React.FC = () => {
 
       <Divider noMargin />
 
-      {mainModules.map((module) => (
-        <NavItem href={module.url}>{module.name}</NavItem>
+      {mainModules.map((module, i) => (
+        <NavItem key={i} href={module.url}>
+          {module.name}
+        </NavItem>
       ))}
     </ul>
   );

@@ -11,9 +11,9 @@ function App() {
       <Switch>
         <Route exact path={mainModules.map((module) => module.url)}>
           <MainLayout>
-            {mainModules.map((module) => {
+            {mainModules.map((module, i) => {
               const Component = module.component;
-              return <Route component={Component} path={module.url}></Route>;
+              return <Route key={i} component={Component} path={module.url}></Route>;
             })}
           </MainLayout>
         </Route>
