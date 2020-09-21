@@ -23,7 +23,7 @@ function App() {
           <MainLayout>
             {mainModules.map((module, i) => {
               const Component = module.component;
-              return <Route key={i} component={Component} path={module.url}></Route>;
+              return <Route exact key={i} component={Component} path={module.url}></Route>;
             })}
           </MainLayout>
         </Route>
