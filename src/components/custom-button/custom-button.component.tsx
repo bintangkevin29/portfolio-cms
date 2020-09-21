@@ -1,15 +1,16 @@
 import React, { Fragment, ReactNode } from "react";
+import { Button, ButtonProps } from "react-bootstrap";
 import CustomSpinner from "../custom-spinner";
 
-interface Props {
+interface Props extends ButtonProps {
   children: ReactNode;
   iconComponent?: React.FC;
   loading?: boolean;
 }
 
-const CustomButton: React.FC<Props> = ({ children, loading = false, iconComponent }) => {
+const CustomButton: React.FC<Props> = ({ children, loading = false, iconComponent, disabled }) => {
   return (
-    <button disabled={loading} className="btn btn-sm btn-primary shadow-sm">
+    <Button disabled={loading || disabled} className="btn btn-sm btn-primary shadow-sm">
       {loading ? (
         <CustomSpinner small />
       ) : (
@@ -17,7 +18,7 @@ const CustomButton: React.FC<Props> = ({ children, loading = false, iconComponen
           {iconComponent && <i className="fas fa-download fa-sm text-white-50"></i>} {children}
         </Fragment>
       )}
-    </button>
+    </Button>
   );
 };
 
