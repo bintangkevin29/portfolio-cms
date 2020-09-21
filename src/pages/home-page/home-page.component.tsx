@@ -8,7 +8,7 @@ const HomePage: React.FC = () => {
     <CustomCard col={6}>
       <Form>
         <Form.Group>
-          <Form.Label>Test</Form.Label>
+          <Form.Label>About Me</Form.Label>
           <Form.Control as="textarea" />
         </Form.Group>
       </Form>
