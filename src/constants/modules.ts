@@ -3,7 +3,7 @@ import HomePage from "../pages/home-page";
 
 export const mainModules: ModuleObject[] = [
   {
-    name: "Main",
+    name: "About",
     url: "/",
     component: HomePage,
   },

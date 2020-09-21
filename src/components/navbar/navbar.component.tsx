@@ -2,12 +2,11 @@ import React from "react";
 
 const Navbar: React.FC = () => {
   return (
-    <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"> 
+    <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
       <ul className="navbar-nav ml-auto">
         <li className="nav-item dropdown no-arrow">
-          <a
+          <div
             className="nav-link dropdown-toggle"
-            href="#"
             id="userDropdown"
             role="button"
             data-toggle="dropdown"
@@ -18,8 +17,9 @@ const Navbar: React.FC = () => {
             <img
               className="img-profile rounded-circle"
               src="https://source.unsplash.com/QAB-WJcbgJk/60x60"
+              alt=""
             />
-          </a>
+          </div>
         </li>
       </ul>
     </nav>
