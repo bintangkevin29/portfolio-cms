@@ -1,4 +1,6 @@
 import React from "react";
+import { Row } from "react-bootstrap";
+
 import ContentWrapper from "../content-wrapper";
 import Sidebar from "../sidebar";
 import Navbar from "../navbar";
@@ -11,7 +13,9 @@ const MainLayout: React.FC = ({ children }) => {
         <Sidebar />
         <ContentWrapper>
           <Navbar />
-          <PageContent>{children}</PageContent>
+          <PageContent>
+            <Row>{children}</Row>
+          </PageContent>
         </ContentWrapper>
       </div>
     </div>

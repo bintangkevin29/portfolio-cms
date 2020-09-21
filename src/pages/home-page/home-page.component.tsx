@@ -1,7 +1,19 @@
 import React from "react";
+import { Form } from "react-bootstrap";
+
+import CustomCard from "../../components/card";
 
 const HomePage: React.FC = () => {
-  return <div>Welcome</div>;
+  return (
+    <CustomCard col={6}>
+      <Form>
+        <Form.Group>
+          <Form.Label>Test</Form.Label>
+          <Form.Control as="textarea" />
+        </Form.Group>
+      </Form>
+    </CustomCard>
+  );
 };
 
 export default HomePage;
