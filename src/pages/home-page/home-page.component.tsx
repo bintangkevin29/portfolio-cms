@@ -21,8 +21,7 @@ const HomePage: React.FC = () => {
     firestoreDB
       .collection("about")
       .doc("Iqqt0Qvbi1XIgPz0DZUl")
-      .get()
-      .then((res) => {
+      .onSnapshot((res) => {
         const response = res.data();
         if (response) {
           setFormData({
@@ -31,6 +30,7 @@ const HomePage: React.FC = () => {
           });
         }
       });
+
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
