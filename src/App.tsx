@@ -1,13 +1,23 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
+import { Slide, ToastContainer } from "react-toastify";
 
-import "./app.scss";
 import MainLayout from "./components/main-layouts";
 import { mainModules } from "./constants/modules";
+
+import "react-toastify/dist/ReactToastify.css";
+import "./app.scss";
 
 function App() {
   return (
     <div className="app">
+      <ToastContainer
+        hideProgressBar
+        position="bottom-left"
+        transition={Slide}
+        autoClose={3000}
+        toastClassName="shadow rounded px-4"
+      />
       <Switch>
         <Route exact path={mainModules.map((module) => module.url)}>
           <MainLayout>

@@ -1,1 +1,22 @@
 @import "./assets/scss/sb-admin-2.scss";
+
+.Toastify__toast {
+  &--rtl {
+  }
+  &--dark {
+  }
+  &--default {
+  }
+  &--info {
+  }
+  &--success {
+    @extend .bg-success;
+  }
+  &--warning {
+  }
+  &--error {
+    @extend .bg-danger;
+  }
+  &-body {
+  }
+}

@@ -5,6 +5,7 @@ import { firestoreDB } from "../../lib/firestore";
 
 import CustomCard from "../../components/card";
 import CustomButton from "../../components/custom-button";
+import { toast } from "react-toastify";
 
 interface AboutFormProps {
   about: string;
@@ -50,11 +51,15 @@ const HomePage: React.FC = () => {
       .set({
         about: formData.about,
       })
-      .then(() => setLoading(false));
+      .then(() => {
+        toast.success("About updated!");
+        setLoading(false);
+      })
+      .catch(() => toast.error("Something wrong"));
   };
 
   return (
-    <CustomCard colXs={6} colMd={12}>
+    <CustomCard colXs={12} colMd={6}>
       <Form onSubmit={handleAboutSubmit}>
         <Form.Group>
           <Form.Label>About Me</Form.Label>

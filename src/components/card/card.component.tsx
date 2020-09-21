@@ -8,9 +8,9 @@ interface Props {
   header?: string;
 }
 
-const CustomCard: React.FC<Props> = ({ children, colXs = 12, colMd, header }) => {
+const CustomCard: React.FC<Props> = ({ children, colXs, colMd, header }) => {
   return (
-    <Col className={`${colXs && `col-${colXs}`} ${colMd && `col-md-${colMd}`}`}>
+    <Col xs={colXs} md={colMd}>
       <div className="card shadow h-100 py-2">
         {header && (
           <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
