@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 import { Slide, ToastContainer } from "react-toastify";
 
@@ -8,8 +8,20 @@ import { combinedModules } from "./constants/modules";
 import "react-toastify/dist/ReactToastify.css";
 import "./app.scss";
 import LoginPage from "./pages/login-page";
+import ProtectedRoute from "./components/protected-route";
+import { firebaseAuth } from "./lib/firestore";
 
 function App() {
+  useEffect(() => {
+    console.log("jalan");
+    const unsubscribe = firebaseAuth.onAuthStateChanged((user) => {
+      if (user) {
+        console.log(user.email);
+      }
+    });
+    return unsubscribe;
+  }, [firebaseAuth]);
+
   return (
     <div className="app">
       <ToastContainer
@@ -24,7 +36,7 @@ function App() {
           <MainLayout>
             {combinedModules.map((module, i) => {
               const Component = module.component;
-              return <Route exact key={i} component={Component} path={module.url}></Route>;
+              return <ProtectedRoute exact key={i} component={Component} path={module.url} />;
             })}
           </MainLayout>
         </Route>
