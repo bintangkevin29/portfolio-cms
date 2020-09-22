@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { FaPencilAlt, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import CustomCard from "../../components/card";
 import { PortfolioProps } from "../../global-props";
 import { firestoreDB } from "../../lib/firestore";
@@ -9,6 +10,19 @@ import { firestoreDB } from "../../lib/firestore";
 const PortfolioPage: React.FC = () => {
   const [portfolioData, setPortfolioData] = useState<PortfolioProps[]>();
   const [loading, setLoading] = useState(true);
+  const [deleteDetector, setDeleteDetector] = useState(false);
+
+  const handleDelete = (id: string) => {
+    firestoreDB
+      .collection("portfolio")
+      .doc(id)
+      .delete()
+      .then(() => {
+        toast.success("Deleted");
+        setDeleteDetector(!deleteDetector);
+      })
+      .catch(() => toast.error("Fail to delete"));
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -22,7 +36,7 @@ const PortfolioPage: React.FC = () => {
         setLoading(false);
         setPortfolioData(data);
       });
-  }, []);
+  }, [deleteDetector]);
 
   return (
     <CustomCard colXs={12}>
@@ -44,7 +58,10 @@ const PortfolioPage: React.FC = () => {
                   <Link to={`/portfolio/details/${portfolio.id}`}>
                     <FaPencilAlt className="text-primary mx-2 cursor-pointer" />
                   </Link>
-                  <FaTrash className="text-danger mx-2 cursor-pointer" />
+                  <FaTrash
+                    onClick={() => handleDelete(portfolio.id)}
+                    className="text-danger mx-2 cursor-pointer"
+                  />
                 </td>
               </tr>
             ))

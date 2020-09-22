@@ -13,4 +13,5 @@ export interface PortfolioProps {
   name: string;
   url: string;
   description: string;
+  role: string;
 }

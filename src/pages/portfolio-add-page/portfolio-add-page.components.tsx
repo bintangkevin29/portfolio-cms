@@ -1,25 +1,29 @@
-import { firestore } from "firebase";
 import React, { useEffect, useState } from "react";
 import { Col, Form } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import CustomCard from "../../components/card";
-import CustomButton from "../../components/custom-button";
+
 import { firestoreDB } from "../../lib/firestore";
 
+import CustomCard from "../../components/card";
+import CustomButton from "../../components/custom-button";
+
 const PortfolioAddPage: React.FC = () => {
+  const history = useHistory();
+
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     url: "",
     description: "",
+    role: "",
   });
 
   const { id } = useParams();
 
   useEffect(() => {
     if (id) {
-      firestoreDB
+      const unsubscribe = firestoreDB
         .collection("portfolio")
         .doc(id)
         .onSnapshot((snapshot) => {
@@ -29,10 +33,13 @@ const PortfolioAddPage: React.FC = () => {
               name: response.name,
               url: response.url,
               description: response.description,
+              role: response.role,
             });
           }
         });
+      return () => unsubscribe();
     }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,14 +54,15 @@ const PortfolioAddPage: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     const pregeneratedId = firestoreDB.collection("portfolio").doc().id;
-    return firestoreDB
+    firestoreDB
       .collection("portfolio")
       .doc(id ? id : pregeneratedId)
       .set(formData)
       .then(() => {
         setLoading(false);
         if (!id) {
-          setFormData({ name: "", url: "", description: "" });
+          setFormData({ name: "", url: "", description: "", role: "" });
+          history.push("/portfolio");
         }
         toast.success(`${id ? "Modified" : "Added"} Portfolio`);
       })
@@ -85,6 +93,18 @@ const PortfolioAddPage: React.FC = () => {
                 required
                 value={formData.url}
                 name="url"
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Col>
+          <Col xs={12}>
+            <Form.Group>
+              <Form.Label>Role</Form.Label>
+              <Form.Control
+                placeholder="Type role here"
+                required
+                value={formData.role}
+                name="role"
                 onChange={handleChange}
               />
             </Form.Group>
