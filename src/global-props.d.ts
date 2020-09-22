@@ -9,6 +9,7 @@ export interface ModuleObject {
 }
 
 export interface PortfolioProps {
+  id: string;
   name: string;
   url: string;
   description: string;

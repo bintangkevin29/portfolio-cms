@@ -20,6 +20,11 @@ export const mainModules: ModuleObject[] = [
         url: "/portfolio/add",
         component: PortfolioAddPage,
       },
+      {
+        name: "Portfolio Details",
+        url: "/portfolio/details/:id",
+        component: PortfolioAddPage,
+      },
     ],
   },
 ];

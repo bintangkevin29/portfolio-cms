@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import { firestore } from "firebase";
+import React, { useEffect, useState } from "react";
 import { Col, Form } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import CustomCard from "../../components/card";
 import CustomButton from "../../components/custom-button";
@@ -13,6 +15,26 @@ const PortfolioAddPage: React.FC = () => {
     description: "",
   });
 
+  const { id } = useParams();
+
+  useEffect(() => {
+    if (id) {
+      firestoreDB
+        .collection("portfolio")
+        .doc(id)
+        .onSnapshot((snapshot) => {
+          const response = snapshot.data();
+          if (response) {
+            setFormData({
+              name: response.name,
+              url: response.url,
+              description: response.description,
+            });
+          }
+        });
+    }
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     setFormData({
@@ -24,14 +46,17 @@ const PortfolioAddPage: React.FC = () => {
   const handleSubmit = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
     setLoading(true);
+    const pregeneratedId = firestoreDB.collection("portfolio").doc().id;
     return firestoreDB
       .collection("portfolio")
-      .doc()
+      .doc(id ? id : pregeneratedId)
       .set(formData)
       .then(() => {
         setLoading(false);
-        setFormData({ name: "", url: "", description: "" });
-        toast.success("Added Portfolio");
+        if (!id) {
+          setFormData({ name: "", url: "", description: "" });
+        }
+        toast.success(`${id ? "Modified" : "Added"} Portfolio`);
       })
       .catch(() => toast.error("Something Wrong Happened"));
   };
@@ -80,7 +105,7 @@ const PortfolioAddPage: React.FC = () => {
           <Col xs={12}>
             <Form.Group>
               <CustomButton type="submit" loading={loading} block>
-                Submit
+                {id ? "Modify" : "Add"}
               </CustomButton>
             </Form.Group>
           </Col>
