@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import CustomButton from "../../components/custom-button";
+
 import { firebaseAuth } from "../../lib/firestore";
+
+import CustomButton from "../../components/custom-button";
 
 const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -10,6 +13,8 @@ const LoginPage: React.FC = () => {
     email: "",
     password: "",
   });
+
+  const history = useHistory();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,6 +31,7 @@ const LoginPage: React.FC = () => {
       .signInWithEmailAndPassword(formData.email, formData.password)
       .then(() => {
         toast.success("Welcome");
+        history.push("/");
       })
       .catch((err) => toast.error(err.message));
     setLoading(false);
