@@ -5,9 +5,10 @@ export interface ModuleObject {
   url: string;
   component: React.FC;
   children?: ModuleObject[];
+  haveAdd?: boolean;
 }
 
-export interface PortfolioProps extends DocumentData{
+export interface PortfolioProps {
   name: string;
   url: string;
   description: string;
