@@ -1,5 +1,6 @@
 import { ModuleObject } from "../global-props";
 import HomePage from "../pages/home-page";
+import PortfolioAddPage from "../pages/portfolio-add-page";
 import PortfolioPage from "../pages/portfolio-page";
 
 export const mainModules: ModuleObject[] = [
@@ -17,16 +18,15 @@ export const mainModules: ModuleObject[] = [
       {
         name: "Add New Portfolio",
         url: "/portfolio/add",
-        component: PortfolioPage,
-        haveAdd: true,
+        component: PortfolioAddPage,
       },
     ],
   },
 ];
 
-export const combinedModules = () => {
+const combineModules = () => {
   let childModule: ModuleObject[] = [];
-  const moduleChildren = mainModules.map((mod) => {
+  mainModules.forEach((mod) => {
     if (mod.children) {
       return mod.children.map((child) => (childModule = [...childModule, child]));
     }
@@ -34,3 +34,5 @@ export const combinedModules = () => {
 
   return [...mainModules, ...childModule];
 };
+
+export const combinedModules = combineModules();

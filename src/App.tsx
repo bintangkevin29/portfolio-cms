@@ -9,8 +9,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "./app.scss";
 
 function App() {
-  const allModules = combinedModules();
-
   return (
     <div className="app">
       <ToastContainer
@@ -21,9 +19,9 @@ function App() {
         toastClassName="shadow rounded px-4"
       />
       <Switch>
-        <Route exact path={allModules.map((module) => module.url)}>
+        <Route exact path={combinedModules.map((module) => module.url)}>
           <MainLayout>
-            {allModules.map((module, i) => {
+            {combinedModules.map((module, i) => {
               const Component = module.component;
               return <Route exact key={i} component={Component} path={module.url}></Route>;
             })}

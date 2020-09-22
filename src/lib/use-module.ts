@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { mainModules } from "../constants/modules";
+import { combinedModules } from "../constants/modules";
 import { ModuleObject } from "../global-props";
 
 export const useModule = () => {
@@ -8,7 +8,7 @@ export const useModule = () => {
   const [module, setModule] = useState<ModuleObject>();
 
   useEffect(() => {
-    const getModuleName = mainModules.find((module) => module.url === location.pathname);
+    const getModuleName = combinedModules.find((module) => module.url === location.pathname);
     if (getModuleName) {
       setModule(getModuleName);
     }
