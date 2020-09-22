@@ -7,6 +7,7 @@ import { combinedModules } from "./constants/modules";
 
 import "react-toastify/dist/ReactToastify.css";
 import "./app.scss";
+import LoginPage from "./pages/login-page";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             })}
           </MainLayout>
         </Route>
+        <Route exact path="/login" component={LoginPage} />
       </Switch>
     </div>
   );
