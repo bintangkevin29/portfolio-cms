@@ -11,13 +11,10 @@ import CustomButton from "../../components/custom-button";
 const PortfolioAddPage: React.FC = () => {
   const history = useHistory();
 
+  const emptyForm = { name: "", url: "", description: "", role: "", libraryFramework: "" };
+
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    url: "",
-    description: "",
-    role: "",
-  });
+  const [formData, setFormData] = useState(emptyForm);
 
   const { id } = useParams();
 
@@ -34,6 +31,7 @@ const PortfolioAddPage: React.FC = () => {
               url: response.url,
               description: response.description,
               role: response.role,
+              libraryFramework: response.libraryFramework,
             });
           }
         });
@@ -61,7 +59,7 @@ const PortfolioAddPage: React.FC = () => {
       .then(() => {
         setLoading(false);
         if (!id) {
-          setFormData({ name: "", url: "", description: "", role: "" });
+          setFormData(emptyForm);
           history.push("/portfolio");
         }
         toast.success(`${id ? "Modified" : "Added"} Portfolio`);
@@ -105,6 +103,18 @@ const PortfolioAddPage: React.FC = () => {
                 required
                 value={formData.role}
                 name="role"
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Col>
+          <Col xs={12}>
+            <Form.Group>
+              <Form.Label>Library / Framework</Form.Label>
+              <Form.Control
+                placeholder="Type programming language, framework, library, etc"
+                required
+                value={formData.libraryFramework}
+                name="libraryFramework"
                 onChange={handleChange}
               />
             </Form.Group>
