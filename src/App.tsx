@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import { Slide, ToastContainer } from "react-toastify";
 
 import MainLayout from "./components/main-layouts";
@@ -10,13 +10,18 @@ import "./app.scss";
 import LoginPage from "./pages/login-page";
 import ProtectedRoute from "./components/protected-route";
 import { firebaseAuth } from "./lib/firestore";
+import { useDispatch } from "react-redux";
+import { setUser } from "./redux/user/user.action";
 
 function App() {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  
   useEffect(() => {
-    console.log("jalan");
     const unsubscribe = firebaseAuth.onAuthStateChanged((user) => {
       if (user) {
-        console.log(user.email);
+        dispatch(setUser(user));
+        history.push("/");
       }
     });
     return unsubscribe;

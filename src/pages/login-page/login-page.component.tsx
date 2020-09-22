@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { firebaseAuth } from "../../lib/firestore";
@@ -14,7 +13,6 @@ const LoginPage: React.FC = () => {
     password: "",
   });
 
-  const history = useHistory();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -24,17 +22,19 @@ const LoginPage: React.FC = () => {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
     setLoading(true);
-    await firebaseAuth
+    firebaseAuth
       .signInWithEmailAndPassword(formData.email, formData.password)
       .then(() => {
         toast.success("Welcome");
-        history.push("/");
+        setLoading(false);
       })
-      .catch((err) => toast.error(err.message));
-    setLoading(false);
+      .catch((err) => {
+        setLoading(false);
+        toast.error(err.message);
+      });
   };
 
   return (
