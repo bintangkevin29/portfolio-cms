@@ -57,18 +57,19 @@ const HomePage: React.FC = () => {
     });
   };
 
-  const handleAboutSubmit = (e: React.FormEvent<HTMLElement>) => {
+  const handleAboutSubmit = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
     setLoading(true);
-    firestoreDB
+    await firestoreDB
       .collection("about")
       .doc("Iqqt0Qvbi1XIgPz0DZUl")
       .set(formData)
       .then(() => {
         toast.success("About updated!");
-        setLoading(false);
       })
       .catch(() => toast.error("Something wrong"));
+
+    setLoading(false);
   };
 
   return (

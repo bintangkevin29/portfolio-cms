@@ -58,16 +58,15 @@ const PortfolioAddPage: React.FC = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
     setLoading(true);
     const pregeneratedId = firestoreDB.collection("portfolio").doc().id;
-    firestoreDB
+    await firestoreDB
       .collection("portfolio")
       .doc(id ? id : pregeneratedId)
       .set(formData)
       .then(() => {
-        setLoading(false);
         if (!id) {
           setFormData(emptyForm);
           history.push("/portfolio");
@@ -75,6 +74,7 @@ const PortfolioAddPage: React.FC = () => {
         toast.success(`${id ? "Modified" : "Added"} Portfolio`);
       })
       .catch(() => toast.error("Something Wrong Happened"));
+    setLoading(false);
   };
 
   return (
@@ -108,22 +108,13 @@ const PortfolioAddPage: React.FC = () => {
           <Col xs={6}>
             <Form.Group>
               <Form.Label>Year</Form.Label>
-              <Form.Control
-                required
-                value={formData.year}
-                name="year"
-                onChange={handleChange}
-              />
+              <Form.Control required value={formData.year} name="year" onChange={handleChange} />
             </Form.Group>
           </Col>
           <Col xs={6}>
             <Form.Group>
               <Form.Label>Github Repo URL</Form.Label>
-              <Form.Control
-                value={formData.githubUrl}
-                name="githubUrl"
-                onChange={handleChange}
-              />
+              <Form.Control value={formData.githubUrl} name="githubUrl" onChange={handleChange} />
             </Form.Group>
           </Col>
           <Col xs={12}>
