@@ -6,3 +6,9 @@ export interface ModuleObject {
   component: React.FC;
   children?: ModuleObject[];
 }
+
+export interface PortfolioProps extends DocumentData{
+  name: string;
+  url: string;
+  description: string;
+}
