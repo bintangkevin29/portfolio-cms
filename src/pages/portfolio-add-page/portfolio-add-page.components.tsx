@@ -11,7 +11,15 @@ import CustomButton from "../../components/custom-button";
 const PortfolioAddPage: React.FC = () => {
   const history = useHistory();
 
-  const emptyForm = { name: "", url: "", description: "", role: "", libraryFramework: "" };
+  const emptyForm = {
+    name: "",
+    url: "",
+    description: "",
+    role: "",
+    libraryFramework: "",
+    githubUrl: "",
+    year: "",
+  };
 
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState(emptyForm);
@@ -32,6 +40,8 @@ const PortfolioAddPage: React.FC = () => {
               description: response.description,
               role: response.role,
               libraryFramework: response.libraryFramework,
+              githubUrl: response.githubUrl,
+              year: response.year,
             });
           }
         });
@@ -91,6 +101,27 @@ const PortfolioAddPage: React.FC = () => {
                 required
                 value={formData.url}
                 name="url"
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Col>
+          <Col xs={6}>
+            <Form.Group>
+              <Form.Label>Year</Form.Label>
+              <Form.Control
+                required
+                value={formData.year}
+                name="year"
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Col>
+          <Col xs={6}>
+            <Form.Group>
+              <Form.Label>Github Repo URL</Form.Label>
+              <Form.Control
+                value={formData.githubUrl}
+                name="githubUrl"
                 onChange={handleChange}
               />
             </Form.Group>
