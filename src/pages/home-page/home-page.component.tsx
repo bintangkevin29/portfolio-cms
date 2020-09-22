@@ -18,7 +18,7 @@ const HomePage: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    firestoreDB
+    const unsubscribe = firestoreDB
       .collection("about")
       .doc("Iqqt0Qvbi1XIgPz0DZUl")
       .onSnapshot((res) => {
@@ -30,7 +30,7 @@ const HomePage: React.FC = () => {
           });
         }
       });
-
+    return () => unsubscribe();
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
