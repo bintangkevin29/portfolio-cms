@@ -1,22 +1,26 @@
 import React, { useEffect } from "react";
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 import { Slide, ToastContainer } from "react-toastify";
+import { useDispatch } from "react-redux";
 
-import MainLayout from "./components/main-layouts";
+import { firebaseAuth } from "./lib/firestore";
+
 import { combinedModules } from "./constants/modules";
+import { setUser } from "./redux/user/user.action";
+
+import LoginPage from "./pages/login-page";
+import ProtectedRoute from "./components/protected-route";
+import MainLayout from "./components/main-layouts";
 
 import "react-toastify/dist/ReactToastify.css";
 import "./app.scss";
-import LoginPage from "./pages/login-page";
-import ProtectedRoute from "./components/protected-route";
-import { firebaseAuth } from "./lib/firestore";
-import { useDispatch } from "react-redux";
-import { setUser } from "./redux/user/user.action";
+import { setLastUrl } from "./redux/url-tracker/url-tracker.action";
 
 function App() {
   const dispatch = useDispatch();
   const history = useHistory();
-  
+  const location = useLocation();
+
   useEffect(() => {
     const unsubscribe = firebaseAuth.onAuthStateChanged((user) => {
       if (user) {
@@ -27,6 +31,10 @@ function App() {
     return unsubscribe;
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [firebaseAuth]);
+
+  useEffect(() => {
+    dispatch(setLastUrl(location.pathname));
+  }, [location]);
 
   return (
     <div className="app">
