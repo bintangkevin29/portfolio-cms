@@ -197,7 +197,7 @@ const PortfolioAddPage: React.FC = () => {
           </Col>
           <Col xs={12}>
             <Form.Group className="d-flex justify-content-center">
-              <img src={currentImageUrl}></img>
+              <img src={currentImageUrl} alt="" width="50%"></img>
             </Form.Group>
           </Col>
           <Col xs={12}>
