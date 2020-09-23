@@ -11,6 +11,10 @@ const userReducer = (state = INIT_STATE, action: UserActionTypes): UserState => 
         ...state,
         user: action.payload,
       };
+    case "RESET_USER":
+      return {
+        user: undefined,
+      };
     default:
       return state;
   }
