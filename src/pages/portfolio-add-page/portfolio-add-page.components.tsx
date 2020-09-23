@@ -3,7 +3,7 @@ import { Col, Form } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { firestoreDB } from "../../lib/firestore";
+import { firebaseStorage, firestoreDB } from "../../lib/firestore";
 
 import CustomCard from "../../components/card";
 import CustomButton from "../../components/custom-button";
@@ -19,10 +19,14 @@ const PortfolioAddPage: React.FC = () => {
     libraryFramework: "",
     githubUrl: "",
     year: "",
+    imageUrl: "",
   };
 
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState(emptyForm);
+  const [imageRaw, setImageRaw] = useState<File>();
+  const [imageToBeDeleted, setImageToBeDeleted] = useState();
+  const [currentImageUrl, setCurrentImageUrl] = useState();
 
   const { id } = useParams();
 
@@ -42,7 +46,15 @@ const PortfolioAddPage: React.FC = () => {
               libraryFramework: response.libraryFramework,
               githubUrl: response.githubUrl,
               year: response.year,
+              imageUrl: response.imageUrl,
             });
+
+            setImageToBeDeleted(response.imageUrl);
+
+            firebaseStorage
+              .ref(response.imageUrl)
+              .getDownloadURL()
+              .then((url) => setCurrentImageUrl(url));
           }
         });
       return () => unsubscribe();
@@ -58,10 +70,21 @@ const PortfolioAddPage: React.FC = () => {
     });
   };
 
+  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImageRaw(e.target.files[0]);
+      setFormData({
+        ...formData,
+        imageUrl: `/images/${e.target.files[0]?.name}`,
+      });
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
     setLoading(true);
     const pregeneratedId = firestoreDB.collection("portfolio").doc().id;
+
     await firestoreDB
       .collection("portfolio")
       .doc(id ? id : pregeneratedId)
@@ -74,11 +97,17 @@ const PortfolioAddPage: React.FC = () => {
         toast.success(`${id ? "Modified" : "Added"} Portfolio`);
       })
       .catch(() => toast.error("Something Wrong Happened"));
+
+    if (imageRaw) {
+      await firebaseStorage.ref(imageToBeDeleted).delete();
+      await firebaseStorage.ref(formData.imageUrl).put(imageRaw);
+    }
+
     setLoading(false);
   };
 
   return (
-    <CustomCard colXs={12} colMd={6}>
+    <CustomCard colXs={12} colMd={8}>
       <Form onSubmit={handleSubmit}>
         <Form.Row>
           <Col xs={6}>
@@ -143,6 +172,18 @@ const PortfolioAddPage: React.FC = () => {
           </Col>
           <Col xs={12}>
             <Form.Group>
+              <Form.Label>Image</Form.Label>
+              <Form.Control
+                placeholder="Type programming language, framework, library, etc"
+                required
+                name="imageFile"
+                type="file"
+                onChange={handleFileInput}
+              />
+            </Form.Group>
+          </Col>
+          <Col xs={12}>
+            <Form.Group>
               <Form.Label>Description</Form.Label>
               <Form.Control
                 as="textarea"
@@ -152,6 +193,11 @@ const PortfolioAddPage: React.FC = () => {
                 name="description"
                 onChange={handleChange}
               />
+            </Form.Group>
+          </Col>
+          <Col xs={12}>
+            <Form.Group className="d-flex justify-content-center">
+              <img src={currentImageUrl}></img>
             </Form.Group>
           </Col>
           <Col xs={12}>
