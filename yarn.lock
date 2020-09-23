@@ -10052,10 +10052,15 @@ redux-logger@^3.0.6:
   dependencies:
     deep-diff "^0.3.5"
 
-redux-persist@*, redux-persist@^6.0.0:
+redux-persist@*:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-6.0.0.tgz#b4d2972f9859597c130d40d4b146fecdab51b3a8"
   integrity sha512-71LLMbUq2r02ng2We9S215LtPu3fY0KgaGE0k8WRgl6RkqxtGfl7HUozz1Dftwsb0D/5mZ8dwAaPbtnzfvbEwQ==
+
+redux-persist@5.6.10:
+  version "5.6.10"
+  resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-5.6.10.tgz#bd964c16a171dc729827ec4ff6bce7f340daa931"
+  integrity sha512-HP6uDn0qZxIMYZLgwj3ltrJxDLMyHwudCg+ZbZTBTTWbJEvigx2j2E3gVIvUdJGssjLbfISfJel6ARME0uHSRw==
 
 redux@*, redux@^4.0.0, redux@^4.0.5:
   version "4.0.5"
