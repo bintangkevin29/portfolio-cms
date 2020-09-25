@@ -49,7 +49,9 @@ const PortfolioAddPage: React.FC = () => {
               imageUrl: response.imageUrl,
             });
 
-            setImageToBeDeleted(response.imageUrl);
+            if (response.imageUrl) {
+              setImageToBeDeleted(response.imageUrl);
+            }
 
             firebaseStorage
               .ref(response.imageUrl)
@@ -94,14 +96,16 @@ const PortfolioAddPage: React.FC = () => {
           setFormData(emptyForm);
           history.push("/portfolio");
         }
-        toast.success(`${id ? "Modified" : "Added"} Portfolio`);
       })
       .catch(() => toast.error("Something Wrong Happened"));
 
     if (imageRaw) {
-      await firebaseStorage.ref(imageToBeDeleted).delete();
+      try {
+        await firebaseStorage.ref(imageToBeDeleted).delete();
+      } catch {}
       await firebaseStorage.ref(formData.imageUrl).put(imageRaw);
     }
+    toast.success(`${id ? "Modified" : "Added"} Portfolio`);
 
     setLoading(false);
   };

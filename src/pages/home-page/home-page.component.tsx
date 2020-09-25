@@ -25,6 +25,7 @@ const HomePage: React.FC = () => {
   };
   const [formData, setFormData] = useState<AboutFormProps>(formInit);
   const [loading, setLoading] = useState(false);
+  
 
   useEffect(() => {
     const unsubscribe = firestoreDB
